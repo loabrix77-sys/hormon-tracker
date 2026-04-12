@@ -7,95 +7,89 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #fbf7f4; --surface: #ffffff; --surface2: #f5ede6; --border: #e8d9ce;
-  --text: #2c1a10; --soft: #8a6a58; --accent: #b85c38; --accent-l: #f2d4c8;
-  --teal: #3a7068; --teal-l: #c8e0dc; --lav: #7a6aaa; --lav-l: #dcd8f0;
-  --green: #4e8060; --green-l: #c8e4d4; --gold: #b8882a; --gold-l: #f0e0b0;
-  --r: 14px; --sh: 0 2px 20px rgba(44,26,16,0.07);
+  --bg:#fbf7f4;--surface:#fff;--surface2:#f5ede6;--border:#e8d9ce;
+  --text:#2c1a10;--soft:#8a6a58;--accent:#b85c38;--accent-l:#f2d4c8;
+  --teal:#3a7068;--teal-l:#c8e0dc;--lav:#7a6aaa;--lav-l:#dcd8f0;
+  --gold:#b8882a;--gold-l:#f0e0b0;--r:14px;--sh:0 2px 20px rgba(44,26,16,.07);
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-.topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 12px; position: sticky; top: 0; z-index: 200; display: flex; align-items: center; gap: 0; overflow-x: auto; }
-.logo { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--accent); padding: 14px 12px 14px 0; white-space: nowrap; flex-shrink: 0; }
-.nav-btn { padding: 14px 12px; border: none; background: none; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: var(--soft); cursor: pointer; border-bottom: 2px solid transparent; transition: all .2s; white-space: nowrap; flex-shrink: 0; }
-.nav-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
-.page { display: none; padding: 16px 14px 80px; max-width: 900px; margin: 0 auto; }
-.page.active { display: block; }
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 16px; margin-bottom: 12px; box-shadow: var(--sh); }
-.card-title { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--accent); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-.dose-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.dose-item { background: var(--surface2); border-radius: 10px; padding: 12px; }
-.dose-label { font-size: 11px; font-weight: 600; color: var(--soft); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
-.dose-input { width: 100%; border: none; background: transparent; font-family: 'DM Sans', sans-serif; font-size: 20px; font-weight: 600; color: var(--text); outline: none; }
-.dose-unit { font-size: 11px; color: var(--soft); }
-.section-label { font-size: 11px; font-weight: 700; color: var(--soft); text-transform: uppercase; letter-spacing: 1px; margin: 16px 0 10px; padding-bottom: 4px; border-bottom: 1px solid var(--border); }
-.symptom-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid rgba(232,217,206,0.4); }
-.symptom-row:last-child { border-bottom: none; }
-.symptom-name { font-size: 13px; color: var(--text); flex: 1; padding-right: 8px; }
-.slider-wrap { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-.slider { -webkit-appearance: none; width: 110px; height: 4px; border-radius: 2px; background: var(--accent-l); outline: none; cursor: pointer; }
-.slider::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--accent); cursor: pointer; }
-.slider-val { font-size: 14px; font-weight: 600; color: var(--accent); min-width: 18px; text-align: center; }
-.status-area { width: 100%; border: 1px solid var(--border); border-radius: 10px; padding: 12px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--text); background: var(--surface2); resize: vertical; min-height: 70px; outline: none; }
-.status-area:focus { border-color: var(--accent); }
-.save-btn { width: 100%; padding: 16px; background: var(--accent); color: white; border: none; border-radius: var(--r); font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 8px; transition: all .2s; }
-.save-btn:hover { background: var(--text); }
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--teal); color: white; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 500; transition: .3s; z-index: 999; }
-.toast.show { transform: translateX(-50%) translateY(0); }
-.hist-entry { border-left: 3px solid var(--accent-l); padding: 12px 14px; margin-bottom: 10px; background: var(--surface); border-radius: 0 var(--r) var(--r) 0; cursor: pointer; transition: .15s; box-shadow: var(--sh); }
-.hist-entry:hover { border-left-color: var(--accent); }
-.hist-date { font-weight: 600; font-size: 14px; }
-.hist-doses { font-size: 12px; color: var(--soft); margin-top: 3px; }
-.hist-status { font-size: 12px; color: var(--text); margin-top: 6px; font-style: italic; border-top: 1px solid var(--border); padding-top: 4px; line-height: 1.4; }
-.analysis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 14px; }
-.stat-label { font-size: 11px; color: var(--soft); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
-.stat-value { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--accent); }
-.stat-sub { font-size: 11px; color: var(--soft); margin-top: 2px; }
-.chart-wrap { overflow-x: auto; padding-bottom: 4px; }
-.corr-item { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid rgba(232,217,206,0.5); }
-.corr-item:last-child { border-bottom: none; }
-.corr-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-.corr-name { font-size: 12px; flex: 1; }
-.corr-bar-wrap { width: 70px; height: 6px; background: var(--surface2); border-radius: 3px; flex-shrink:0; }
-.corr-bar { height: 6px; border-radius: 3px; }
-.corr-val { font-size: 12px; font-weight: 600; color: var(--accent); min-width: 32px; text-align: right; }
-.insight { background: linear-gradient(135deg, var(--teal-l), var(--lav-l)); border-radius: var(--r); padding: 14px; margin-bottom: 12px; }
-.insight-title { font-weight: 600; font-size: 14px; color: var(--teal); margin-bottom: 6px; }
-.insight-text { font-size: 13px; color: var(--text); line-height: 1.6; }
-.ai-response { background: var(--surface2); border-radius: var(--r); padding: 16px; font-size: 13px; line-height: 1.7; white-space: pre-wrap; min-height: 60px; }
-.ai-btn { background: var(--lav); color: white; border: none; border-radius: 10px; padding: 13px 20px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 10px; transition: .2s; }
-.ai-btn:hover { background: var(--text); }
-.ai-btn:disabled { opacity: .5; cursor: not-allowed; }
-.thinking { color: var(--soft); font-style: italic; }
-.tab-row { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
-.tab-btn { padding: 7px 13px; border: 1px solid var(--border); border-radius: 20px; background: var(--surface); font-size: 12px; font-weight: 500; cursor: pointer; color: var(--soft); transition: .15s; }
-.tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
-.date-row { display: flex; gap: 10px; align-items: center; margin-bottom: 14px; }
-.date-row input[type=date] { border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; font-family: 'DM Sans', sans-serif; font-size: 14px; background: var(--surface); color: var(--text); outline: none; flex: 1; }
-.date-row input:focus { border-color: var(--accent); }
-.pill { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-.pill-down { background: #e8f5e8; color: #307030; }
-.pill-up { background: #fce8e8; color: #c03030; }
-.pill-neu { background: var(--gold-l); color: var(--gold); }
-.combo-controls { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-.combo-toggle { display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; border: 2px solid; cursor: pointer; font-size: 12px; font-weight: 500; transition: .15s; user-select: none; }
-.combo-toggle input[type=checkbox] { display: none; }
-.combo-toggle.checked { color: white !important; }
-.combo-section-label { font-size: 11px; font-weight: 700; color: var(--soft); text-transform: uppercase; letter-spacing: 1px; margin: 10px 0 6px; width: 100%; }
-.dual-axis-note { font-size: 11px; color: var(--soft); margin-bottom: 10px; font-style: italic; }
-
-@media (max-width: 480px) { .analysis-grid { grid-template-columns: 1fr; } .slider { width: 85px; } .dose-grid { grid-template-columns: 1fr; } }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 12px;position:sticky;top:0;z-index:200;display:flex;align-items:center;overflow-x:auto}
+.logo{font-family:'Playfair Display',serif;font-size:17px;color:var(--accent);padding:14px 12px 14px 0;white-space:nowrap;flex-shrink:0}
+.nav-btn{padding:14px 12px;border:none;background:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--soft);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.nav-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+.page{display:none;padding:16px 14px 80px;max-width:900px;margin:0 auto}
+.page.active{display:block}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:12px;box-shadow:var(--sh)}
+.card-title{font-family:'Playfair Display',serif;font-size:15px;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.dose-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dose-item{background:var(--surface2);border-radius:10px;padding:12px}
+.dose-label{font-size:11px;font-weight:600;color:var(--soft);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.dose-input{width:100%;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:20px;font-weight:600;color:var(--text);outline:none}
+.dose-unit{font-size:11px;color:var(--soft)}
+.section-label{font-size:11px;font-weight:700;color:var(--soft);text-transform:uppercase;letter-spacing:1px;margin:16px 0 10px;padding-bottom:4px;border-bottom:1px solid var(--border)}
+.symptom-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(232,217,206,.4)}
+.symptom-row:last-child{border-bottom:none}
+.symptom-name{font-size:13px;color:var(--text);flex:1;padding-right:8px}
+.slider-wrap{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.slider{-webkit-appearance:none;width:110px;height:4px;border-radius:2px;background:var(--accent-l);outline:none;cursor:pointer}
+.slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer}
+.slider-val{font-size:14px;font-weight:600;color:var(--accent);min-width:18px;text-align:center}
+.status-area{width:100%;border:1px solid var(--border);border-radius:10px;padding:12px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--surface2);resize:vertical;min-height:70px;outline:none}
+.status-area:focus{border-color:var(--accent)}
+.save-btn{width:100%;padding:16px;background:var(--accent);color:#fff;border:none;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;margin-top:8px;transition:all .2s}
+.save-btn:hover{background:var(--text)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--teal);color:#fff;padding:12px 24px;border-radius:30px;font-size:14px;font-weight:500;transition:.3s;z-index:999}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.hist-entry{border-left:3px solid var(--accent-l);padding:12px 14px;margin-bottom:10px;background:var(--surface);border-radius:0 var(--r) var(--r) 0;cursor:pointer;transition:.15s;box-shadow:var(--sh)}
+.hist-entry:hover{border-left-color:var(--accent)}
+.hist-date{font-weight:600;font-size:14px}
+.hist-doses{font-size:12px;color:var(--soft);margin-top:3px}
+.hist-status{font-size:12px;color:var(--text);margin-top:6px;font-style:italic;border-top:1px solid var(--border);padding-top:4px;line-height:1.4}
+.analysis-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px}
+.stat-label{font-size:11px;color:var(--soft);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.stat-value{font-family:'Playfair Display',serif;font-size:26px;color:var(--accent)}
+.stat-sub{font-size:11px;color:var(--soft);margin-top:2px}
+.chart-wrap{overflow-x:auto;padding-bottom:4px}
+.corr-item{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(232,217,206,.5)}
+.corr-item:last-child{border-bottom:none}
+.corr-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.corr-name{font-size:12px;flex:1}
+.corr-bar-wrap{width:70px;height:6px;background:var(--surface2);border-radius:3px;flex-shrink:0}
+.corr-bar{height:6px;border-radius:3px}
+.corr-val{font-size:12px;font-weight:600;color:var(--accent);min-width:32px;text-align:right}
+.insight{background:linear-gradient(135deg,var(--teal-l),var(--lav-l));border-radius:var(--r);padding:14px;margin-bottom:12px}
+.insight-title{font-weight:600;font-size:14px;color:var(--teal);margin-bottom:6px}
+.insight-text{font-size:13px;color:var(--text);line-height:1.6}
+.thinking{color:var(--soft);font-style:italic}
+.tab-row{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.tab-btn{padding:7px 13px;border:1px solid var(--border);border-radius:20px;background:var(--surface);font-size:12px;font-weight:500;cursor:pointer;color:var(--soft);transition:.15s}
+.tab-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.date-row{display:flex;gap:10px;align-items:center;margin-bottom:14px}
+.date-row input[type=date]{border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:14px;background:var(--surface);color:var(--text);outline:none;flex:1}
+.date-row input:focus{border-color:var(--accent)}
+.pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600}
+.pill-down{background:#e8f5e8;color:#307030}
+.pill-up{background:#fce8e8;color:#c03030}
+.pill-neu{background:var(--gold-l);color:var(--gold)}
+.page-heading{font-family:'Playfair Display',serif;font-size:20px;color:var(--accent);margin-bottom:16px}
+/* Kombiner toggles */
+.combo-controls{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.combo-section-label{font-size:11px;font-weight:700;color:var(--soft);text-transform:uppercase;letter-spacing:1px;margin:10px 0 4px;width:100%}
+.ctoggle{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:20px;border:2px solid;cursor:pointer;font-size:12px;font-weight:600;transition:all .15s;user-select:none;background:var(--surface)}
+.ctoggle.on{color:#fff !important}
+.dual-note{font-size:11px;color:var(--soft);margin-bottom:10px;font-style:italic}
+.hist-dose-chart{margin-top:10px}
+@media(max-width:480px){.analysis-grid{grid-template-columns:1fr}.slider{width:85px}.dose-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-
 <div class="topbar">
   <span class="logo">⚗️ Hormon</span>
   <button class="nav-btn active" id="nav-log">Log</button>
   <button class="nav-btn" id="nav-history">Historik</button>
   <button class="nav-btn" id="nav-analysis">Analyse</button>
-  <button class="nav-btn" id="nav-ai">AI-indsigt</button>
 </div>
 
 <!-- LOG -->
@@ -104,84 +98,39 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     <input type="date" id="log-date">
     <button class="tab-btn active" onclick="setToday()">I dag</button>
   </div>
-
   <div class="card">
     <div class="card-title">💊 Doser</div>
     <div class="dose-grid">
-      <div class="dose-item">
-        <div class="dose-label">Estrogel</div>
-        <input class="dose-input" id="d-estrogel" type="number" step="0.05" min="0" max="6" value="2.7">
-        <div class="dose-unit">ml</div>
-      </div>
-      <div class="dose-item">
-        <div class="dose-label">Tostran</div>
-        <input class="dose-input" id="d-tostran" type="number" step="0.05" min="0" max="4" value="0.3">
-        <div class="dose-unit">antal pump</div>
-      </div>
-      <div class="dose-item">
-        <div class="dose-label">Progesteron</div>
-        <input class="dose-input" id="d-prog" type="text" placeholder="fx 0.5x2" value="0.5x1">
-        <div class="dose-unit">ml × gange</div>
-      </div>
-      <div class="dose-item">
-        <div class="dose-label">Utrogestan</div>
-        <input class="dose-input" id="d-utro" type="number" step="1" min="0" max="4" value="2">
-        <div class="dose-unit">tablet</div>
-      </div>
+      <div class="dose-item"><div class="dose-label">Estrogel</div><input class="dose-input" id="d-estrogel" type="number" step="0.05" min="0" max="6" value="2.7"><div class="dose-unit">ml</div></div>
+      <div class="dose-item"><div class="dose-label">Tostran</div><input class="dose-input" id="d-tostran" type="number" step="0.05" min="0" max="4" value="0.3"><div class="dose-unit">antal pump</div></div>
+      <div class="dose-item"><div class="dose-label">Progesteron</div><input class="dose-input" id="d-prog" type="text" placeholder="fx 0.5x2" value="0.5x1"><div class="dose-unit">ml × gange</div></div>
+      <div class="dose-item"><div class="dose-label">Utrogestan</div><input class="dose-input" id="d-utro" type="number" step="1" min="0" max="4" value="2"><div class="dose-unit">tablet</div></div>
     </div>
     <div class="section-label" style="margin-top:14px">Tilskud</div>
     <div class="dose-grid">
-      <div class="dose-item">
-        <div class="dose-label">Kreatin</div>
-        <input class="dose-input" id="d-kreatin" type="number" step="0.5" min="0" max="20" placeholder="0">
-        <div class="dose-unit">gram</div>
-      </div>
+      <div class="dose-item"><div class="dose-label">Kreatin</div><input class="dose-input" id="d-kreatin" type="number" step="0.5" min="0" max="20" placeholder="0"><div class="dose-unit">gram</div></div>
     </div>
     <div class="section-label" style="margin-top:14px">Cyklusdag</div>
-    <div class="dose-item" style="max-width:150px">
-      <div class="dose-label">Dag i cyklus</div>
-      <input class="dose-input" id="d-cyklus" type="number" min="1" max="90" placeholder="?">
-    </div>
+    <div class="dose-item" style="max-width:150px"><div class="dose-label">Dag i cyklus</div><input class="dose-input" id="d-cyklus" type="number" min="1" max="90" placeholder="?"></div>
   </div>
-
-  <div class="card">
-    <div class="card-title">🌙 Søvn & Energi</div>
-    <div id="sliders-sovn"></div>
-  </div>
-  <div class="card">
-    <div class="card-title">🌿 Krop</div>
-    <div id="sliders-krop"></div>
-  </div>
-  <div class="card">
-    <div class="card-title">🧠 Følelser & Mentalt</div>
-    <div id="sliders-foel"></div>
-  </div>
-  <div class="card">
-    <div class="card-title">🩸 Blødninger & PMS</div>
-    <div id="sliders-blod"></div>
-  </div>
-  <div class="card">
-    <div class="card-title">💫 Hoved & Mave</div>
-    <div id="sliders-hoved"></div>
-  </div>
-  <div class="card">
-    <div class="card-title">🌸 Underliv</div>
-    <div id="sliders-under"></div>
-  </div>
-  <div class="card">
-    <div class="card-title">✨ Sanser & Hud</div>
-    <div id="sliders-sans"></div>
-  </div>
-  <div class="card">
-    <div class="card-title">📝 Noter / Status</div>
-    <textarea class="status-area" id="log-note" placeholder="Hvordan har du det? Hvad bemærker du?"></textarea>
-  </div>
+  <div class="card"><div class="card-title">🌙 Søvn & Energi</div><div id="sliders-sovn"></div></div>
+  <div class="card"><div class="card-title">🌿 Krop</div><div id="sliders-krop"></div></div>
+  <div class="card"><div class="card-title">🧠 Følelser & Mentalt</div><div id="sliders-foel"></div></div>
+  <div class="card"><div class="card-title">🩸 Blødninger & PMS</div><div id="sliders-blod"></div></div>
+  <div class="card"><div class="card-title">💫 Hoved & Mave</div><div id="sliders-hoved"></div></div>
+  <div class="card"><div class="card-title">🌸 Underliv</div><div id="sliders-under"></div></div>
+  <div class="card"><div class="card-title">✨ Sanser & Hud</div><div id="sliders-sans"></div></div>
+  <div class="card"><div class="card-title">📝 Noter / Status</div><textarea class="status-area" id="log-note" placeholder="Hvordan har du det? Hvad bemærker du?"></textarea></div>
   <button class="save-btn" onclick="saveEntry()">Gem dagens registrering ✓</button>
 </div>
 
 <!-- HISTORY -->
 <div id="page-history" class="page">
   <div class="page-heading">📅 Historik</div>
+  <div class="card">
+    <div class="card-title">📈 Doseringsoverblik</div>
+    <div id="hist-charts"></div>
+  </div>
   <div id="history-list"></div>
 </div>
 
@@ -199,193 +148,177 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
   <div id="analysis-content"></div>
 </div>
 
-<!-- AI -->
-<div id="page-ai" class="page">
-  <div class="page-heading">🤖 AI-indsigt</div>
-  <div class="insight">
-    <div class="insight-title">Hvad kan AI hjælpe med?</div>
-    <div class="insight-text">AI'en analyserer dine data og giver personlige observationer om mønstre og sammenhænge – og foreslår spørgsmål til din læge.</div>
-  </div>
-  <div class="card">
-    <div class="card-title">🔍 Vælg analysevinkel</div>
-    <div class="tab-row" id="ai-prompt-tabs">
-      <button class="tab-btn active" data-ai="0">Generel</button>
-      <button class="tab-btn" data-ai="1">Østrogen</button>
-      <button class="tab-btn" data-ai="2">Nedtrapning</button>
-      <button class="tab-btn" data-ai="3">Angst & humør</button>
-    </div>
-    <div class="ai-response" id="ai-output">Vælg en analysevinkel og tryk på knappen nedenfor...</div>
-    <button class="ai-btn" id="ai-run-btn" onclick="runAI()">✨ Analysér mine hormondata</button>
-  </div>
-</div>
-
 <div class="toast" id="toast">✓ Gemt!</div>
 
 <script>
+// ===== SYMPTOM SECTIONS =====
 const SECTIONS = {
-  sovn: { items: [
-    { key:"min_before_sleep", label:"Minutter før søvn", max:120 },
-    { key:"wakeups", label:"Antal opvågninger", max:10 },
-    { key:"wake_time", label:"Vågen tid (min)", max:120 },
-    { key:"energy_morning", label:"Vågner med energi", max:10 },
-    { key:"jetlag", label:"Følelse af jetlag", max:10 },
+  sovn:{items:[
+    {key:"min_before_sleep",label:"Minutter før søvn",max:120},
+    {key:"wakeups",label:"Antal opvågninger",max:10},
+    {key:"wake_time",label:"Vågen tid (min)",max:120},
+    {key:"energy_morning",label:"Vågner med energi",max:10},
+    {key:"jetlag",label:"Følelse af jetlag",max:10},
   ]},
-  krop: { items: [
-    { key:"hedeture_dag", label:"Hedeture dag", max:10 },
-    { key:"hedeture_nat", label:"Hedeture nat", max:10 },
-    { key:"omt_bryster", label:"Ømme bryster", max:10 },
-    { key:"haevede_fingre", label:"Hævede fingre", max:10 },
-    { key:"haevede_fod", label:"Hævede fødder/ankler", max:10 },
-    { key:"stive_led", label:"Stive led", max:10 },
-    { key:"omme_led", label:"Ømme led", max:10 },
-    { key:"sover_haender", label:"Hænder/fødder sover", max:10 },
-    { key:"el_stod", label:"Elektriske stød", max:10 },
-    { key:"vibrationer", label:"Vibrationer i kroppen", max:10 },
-    { key:"indvendig_uro", label:"Indvendig uro/sitren", max:10 },
-    { key:"krible_kloe", label:"Krible/kløe under huden", max:10 },
+  krop:{items:[
+    {key:"hedeture_dag",label:"Hedeture dag",max:10},
+    {key:"hedeture_nat",label:"Hedeture nat",max:10},
+    {key:"omt_bryster",label:"Ømme bryster",max:10},
+    {key:"haevede_fingre",label:"Hævede fingre",max:10},
+    {key:"haevede_fod",label:"Hævede fødder/ankler",max:10},
+    {key:"stive_led",label:"Stive led",max:10},
+    {key:"omme_led",label:"Ømme led",max:10},
+    {key:"sover_haender",label:"Hænder/fødder sover",max:10},
+    {key:"el_stod",label:"Elektriske stød",max:10},
+    {key:"vibrationer",label:"Vibrationer i kroppen",max:10},
+    {key:"indvendig_uro",label:"Indvendig uro/sitren",max:10},
+    {key:"krible_kloe",label:"Krible/kløe under huden",max:10},
   ]},
-  foel: { items: [
-    { key:"angst", label:"Angst", max:10 },
-    { key:"katastrofetanker", label:"Katastrofetanker", max:10 },
-    { key:"nervoes", label:"Nervøs/bekymret", max:10 },
-    { key:"uduelig", label:"Uduelig-følelse", max:10 },
-    { key:"taaerer", label:"Let til tårer", max:10 },
-    { key:"trist", label:"Trist/depressiv", max:10 },
-    { key:"vrede", label:"Vrede", max:10 },
-    { key:"hjernetaage", label:"Hjernetåge", max:10 },
-    { key:"osteklokke", label:"Osteklokke-følelse", max:10 },
-    { key:"ingen_motivation", label:"Mangel på motivation", max:10 },
-    { key:"isolation", label:"Lyst til isolation", max:10 },
-    { key:"stress_taerskel", label:"Lav stress-tærskel", max:10 },
-    { key:"sukkertrang", label:"Sukkertrang", max:10 },
+  foel:{items:[
+    {key:"angst",label:"Angst",max:10},
+    {key:"katastrofetanker",label:"Katastrofetanker",max:10},
+    {key:"nervoes",label:"Nervøs/bekymret",max:10},
+    {key:"uduelig",label:"Uduelig-følelse",max:10},
+    {key:"taaerer",label:"Let til tårer",max:10},
+    {key:"trist",label:"Trist/depressiv",max:10},
+    {key:"vrede",label:"Vrede",max:10},
+    {key:"hjernetaage",label:"Hjernetåge",max:10},
+    {key:"osteklokke",label:"Osteklokke-følelse",max:10},
+    {key:"ingen_motivation",label:"Mangel på motivation",max:10},
+    {key:"isolation",label:"Lyst til isolation",max:10},
+    {key:"stress_taerskel",label:"Lav stress-tærskel",max:10},
+    {key:"sukkertrang",label:"Sukkertrang",max:10},
   ]},
-  blod: { items: [
-    { key:"uregelmassig_blod", label:"Uregelmæssige blødninger", max:10 },
-    { key:"kraftig_blod", label:"Kraftige blødninger", max:10 },
-    { key:"pletblod", label:"Pletblødninger", max:10 },
-    { key:"pms", label:"PMS", max:10 },
+  blod:{items:[
+    {key:"uregelmassig_blod",label:"Uregelmæssige blødninger",max:10},
+    {key:"kraftig_blod",label:"Kraftige blødninger",max:10},
+    {key:"pletblod",label:"Pletblødninger",max:10},
+    {key:"pms",label:"PMS",max:10},
   ]},
-  hoved: { items: [
-    { key:"hovedpine", label:"Hovedpine", max:10 },
-    { key:"tryk_hoved", label:"Trykken i hovedet", max:10 },
-    { key:"migraene", label:"Migræne", max:10 },
-    { key:"forstoppelse", label:"Forstoppelse", max:10 },
-    { key:"oppustet", label:"Oppustet", max:10 },
-    { key:"kvalme", label:"Kvalme", max:10 },
-    { key:"sure_opstod", label:"Sure opstød", max:10 },
-    { key:"svimmelhed", label:"Svimmelhed", max:10 },
-    { key:"tinnitus", label:"Tinnitus", max:10 },
+  hoved:{items:[
+    {key:"hovedpine",label:"Hovedpine",max:10},
+    {key:"tryk_hoved",label:"Trykken i hovedet",max:10},
+    {key:"migraene",label:"Migræne",max:10},
+    {key:"forstoppelse",label:"Forstoppelse",max:10},
+    {key:"oppustet",label:"Oppustet",max:10},
+    {key:"kvalme",label:"Kvalme",max:10},
+    {key:"sure_opstod",label:"Sure opstød",max:10},
+    {key:"svimmelhed",label:"Svimmelhed",max:10},
+    {key:"tinnitus",label:"Tinnitus",max:10},
   ]},
-  under: { items: [
-    { key:"tor_underliv", label:"Tørre slimhinder underliv", max:10 },
-    { key:"mangl_sexlyst", label:"Manglende sexlyst", max:10 },
-    { key:"orgasme_svaert", label:"Orgasme svært", max:10 },
-    { key:"inkontinens", label:"Inkontinens", max:10 },
-    { key:"nervoes_blaere", label:"Nervøs blære", max:10 },
-    { key:"nattetisseri", label:"Nattetisseri", max:10 },
+  under:{items:[
+    {key:"tor_underliv",label:"Tørre slimhinder underliv",max:10},
+    {key:"mangl_sexlyst",label:"Manglende sexlyst",max:10},
+    {key:"orgasme_svaert",label:"Orgasme svært",max:10},
+    {key:"inkontinens",label:"Inkontinens",max:10},
+    {key:"nervoes_blaere",label:"Nervøs blære",max:10},
+    {key:"nattetisseri",label:"Nattetisseri",max:10},
   ]},
-  sans: { items: [
-    { key:"tor_hud", label:"Tør hud", max:10 },
-    { key:"herpes", label:"Herpes", max:10 },
-    { key:"tandkod", label:"Tandkødsproblemer", max:10 },
-    { key:"tor_ojne", label:"Tørre øjne", max:10 },
-    { key:"tor_mund", label:"Tør mund", max:10 },
-    { key:"aendret_lugt", label:"Ændret lugtesans", max:10 },
-    { key:"smagsforstyrrelser", label:"Smagsforstyrrelser", max:10 },
+  sans:{items:[
+    {key:"tor_hud",label:"Tør hud",max:10},
+    {key:"herpes",label:"Herpes",max:10},
+    {key:"tandkod",label:"Tandkødsproblemer",max:10},
+    {key:"tor_ojne",label:"Tørre øjne",max:10},
+    {key:"tor_mund",label:"Tør mund",max:10},
+    {key:"aendret_lugt",label:"Ændret lugtesans",max:10},
+    {key:"smagsforstyrrelser",label:"Smagsforstyrrelser",max:10},
   ]},
 };
 
-const HISTORICAL = [
-  { date:"2024-11-01", estrogel:1.25, tostran:1, progesteron:"0.5x3", utrogestan:1, cyklus:25,
-    note:"Startpunkt. Forsøgte Utrogestan cyklisk men fik vand i kroppen og humørsvingninger.",
-    energy_morning:8, jetlag:5, angst:6, katastrofetanker:8, nervoes:10, uduelig:8, taaerer:8, trist:9, vrede:9,
-    hjernetaage:8, osteklokke:7, ingen_motivation:7, isolation:7, stress_taerskel:9, sukkertrang:7,
-    haevede_fod:5, stive_led:2, omme_led:5, sover_haender:4, el_stod:4, vibrationer:6, indvendig_uro:2,
-    pms:8, uregelmassig_blod:2, mangl_sexlyst:8, orgasme_svaert:3, nervoes_blaere:3,
-    oppustet:6, min_before_sleep:40, wakeups:3, wake_time:2 },
-  { date:"2024-06-01", estrogel:3.75, tostran:1, progesteron:"", utrogestan:2, cyklus:25,
-    note:"God periode. Forsøgte at trappe ned til 2 pump.",
-    energy_morning:5, jetlag:2, angst:2, katastrofetanker:1, nervoes:4, uduelig:4, taaerer:2, trist:3, vrede:5,
-    hjernetaage:2, osteklokke:1, ingen_motivation:1, isolation:1, stress_taerskel:1, sukkertrang:8,
-    haevede_fingre:4, haevede_fod:5, stive_led:4, omme_led:3, sover_haender:2, el_stod:1, vibrationer:2, indvendig_uro:2,
-    oppustet:4, min_before_sleep:10, wakeups:0, wake_time:5, mangl_sexlyst:0, herpes:4 },
-  { date:"2024-07-01", estrogel:3.75, tostran:1, progesteron:"0.5x3", utrogestan:2, cyklus:28,
-    note:"Stabil. Prøver at trappe ned.",
-    energy_morning:4, jetlag:1, angst:3, katastrofetanker:2, nervoes:2, uduelig:2, taaerer:2, trist:2, vrede:2,
-    hjernetaage:1, osteklokke:1, ingen_motivation:1, isolation:1, stress_taerskel:1, sukkertrang:6,
-    haevede_fingre:4, haevede_fod:5, stive_led:5, omme_led:4, sover_haender:2, el_stod:0, vibrationer:2, indvendig_uro:2,
-    oppustet:4, uregelmassig_blod:3, min_before_sleep:15, wakeups:2, wake_time:5 },
-  { date:"2024-07-30", estrogel:3.75, tostran:0.5, progesteron:"0.5x3", utrogestan:2, cyklus:23,
-    note:"Crashede da jeg trappede ned på Estrogel – blev fjern og trist. Blødningsforstyrrelser.",
-    energy_morning:3, jetlag:1, angst:2, katastrofetanker:2, nervoes:2, uduelig:2, taaerer:2, trist:3, vrede:1,
-    hjernetaage:1, osteklokke:1, ingen_motivation:1, isolation:1, stress_taerskel:1, sukkertrang:4,
-    haevede_fingre:5, haevede_fod:4, stive_led:4, omme_led:6, el_stod:2, vibrationer:2,
-    oppustet:4, uregelmassig_blod:3, min_before_sleep:0, wakeups:1, wake_time:5, herpes:4 },
-  { date:"2024-08-08", estrogel:3, tostran:0.25, progesteron:"0.5x3", utrogestan:2, cyklus:null,
-    note:"Crashede igen. Influenza-symptomer, osteklokke, træthed og tristhed. Trapper op til 2,9. Blødningsforstyrrelser.",
-    energy_morning:6, jetlag:2, angst:0, katastrofetanker:0, nervoes:0, uduelig:4, taaerer:2, trist:5, vrede:4,
-    hjernetaage:2, osteklokke:3, ingen_motivation:3, isolation:0, stress_taerskel:0, sukkertrang:0,
-    haevede_fingre:4, haevede_fod:3, stive_led:4, omme_led:6, el_stod:2, vibrationer:2, indvendig_uro:2,
-    omt_bryster:1, uregelmassig_blod:4, oppustet:0, sure_opstod:2, min_before_sleep:20, wakeups:2, wake_time:1 },
-  { date:"2024-08-22", estrogel:2.8, tostran:0.25, progesteron:"0.5x3", utrogestan:2, cyklus:5,
-    note:"Torsdag-crashes. Cravings om eftermiddagen. Løb tør for Tostran i 3 dage. Trappe op på Tostran for energi. Vejer 80 kg.",
-    energy_morning:2, jetlag:5, angst:2, katastrofetanker:2, nervoes:3, uduelig:5, taaerer:3, trist:5, vrede:3,
-    hjernetaage:6, osteklokke:5, ingen_motivation:4, isolation:5, stress_taerskel:4, sukkertrang:7,
-    stive_led:3, omme_led:6, el_stod:3, vibrationer:3, indvendig_uro:2,
-    uregelmassig_blod:6, pletblod:3, hovedpine:3, tryk_hoved:6, oppustet:3, svimmelhed:3, tor_mund:2,
-    mangl_sexlyst:2, orgasme_svaert:3, inkontinens:2, nervoes_blaere:3, herpes:4, tandkod:1,
-    min_before_sleep:0, wakeups:1, wake_time:1 },
-  { date:"2024-09-21", estrogel:2.7, tostran:0.25, progesteron:"0.5x3", utrogestan:2, cyklus:21,
-    note:"Progesteron vaginalt om morgenen – beroligende effekt. Menstruation udebliver.",
-    energy_morning:1, jetlag:4, angst:0, katastrofetanker:3, nervoes:3, uduelig:3, taaerer:2, trist:7, vrede:2,
-    hjernetaage:5, osteklokke:5, ingen_motivation:5, isolation:5, stress_taerskel:5, sukkertrang:7,
-    stive_led:2, omme_led:3, el_stod:2, vibrationer:3, indvendig_uro:3, krible_kloe:3, tor_hud:2,
-    uregelmassig_blod:0, hovedpine:3, kvalme:2, mangl_sexlyst:2, tandkod:2, min_before_sleep:5, wakeups:2, wake_time:1 },
-  { date:"2024-09-29", estrogel:2.7, tostran:0.4, progesteron:"0.5x3", utrogestan:2, cyklus:30,
-    note:"Svarblødning efter nedtrapning af progesteron. Energi til at træne, sexlyst tilbage. Humøret er godt! Irritabel ved for høj Tostran.",
-    energy_morning:4, jetlag:0, angst:0, katastrofetanker:3, nervoes:4, uduelig:0, taaerer:0, trist:5, vrede:0,
-    hjernetaage:0, osteklokke:0, ingen_motivation:5, isolation:5, stress_taerskel:0, sukkertrang:7,
-    haevede_fingre:2, stive_led:0, omme_led:0, omt_bryster:1, forstoppelse:2, oppustet:2,
-    hedeture_nat:1, min_before_sleep:10, wakeups:0, wake_time:0 },
-  { date:"2024-11-09", estrogel:2.5, tostran:0.4, progesteron:"0.5x2", utrogestan:3, cyklus:null,
-    note:"Menstruation mangler. Progesteron vaginalt morgen. Revner i mundvige.",
-    energy_morning:4, jetlag:0, angst:0, katastrofetanker:1, nervoes:0, uduelig:2, taaerer:0, trist:0, vrede:2,
-    hjernetaage:0, osteklokke:0, ingen_motivation:2, isolation:3, stress_taerskel:3, sukkertrang:2,
-    haevede_fingre:3, haevede_fod:3, stive_led:4, omme_led:4, tryk_hoved:1, sure_opstod:3,
-    tinnitus:2, orgasme_svaert:3, uregelmassig_blod:7, min_before_sleep:10, wakeups:1, wake_time:1 },
-  { date:"2024-12-09", estrogel:2.8, tostran:0.3, progesteron:"0.5 morgen", utrogestan:2, cyklus:3,
-    note:"Svarblødning. Energi, sexlyst, godt humør! Trappe lidt ned på Tostran pga. irritabilitet.",
-    energy_morning:5, jetlag:0, angst:0, katastrofetanker:0, nervoes:0, uduelig:0, taaerer:3, trist:0, vrede:3,
-    hjernetaage:0, osteklokke:0, ingen_motivation:0, isolation:3, stress_taerskel:0, sukkertrang:5,
-    haevede_fingre:3, haevede_fod:3, stive_led:4, omme_led:4, hedeture_dag:1, hedeture_nat:3,
-    tinnitus:4, tandkod:4, min_before_sleep:10, wakeups:1, wake_time:2 },
-  { date:"2025-02-21", estrogel:2.7, tostran:0.3, progesteron:"", utrogestan:2, cyklus:43,
-    note:"Ængstelig og bekymret i over en måned. Mistanke om for lidt østrogen. Mange nye symptomer.",
-    energy_morning:5, jetlag:6, angst:8, katastrofetanker:8, nervoes:8, uduelig:3, taaerer:4, trist:6, vrede:3,
-    hjernetaage:4, osteklokke:0, ingen_motivation:4, isolation:5, stress_taerskel:7, sukkertrang:7,
-    haevede_fingre:6, haevede_fod:6, stive_led:5, omme_led:6, indvendig_uro:7, tor_hud:7,
-    tinnitus:6, tor_underliv:6, mangl_sexlyst:0, inkontinens:6, nervoes_blaere:6,
-    oppustet:5, aendret_lugt:6, smagsforstyrrelser:6, min_before_sleep:10, wakeups:2, wake_time:2 },
+// ===== HISTORICAL DATA =====
+const HISTORICAL=[
+  {date:"2024-11-01",estrogel:1.25,tostran:1,progesteron:"0.5x3",utrogestan:1,kreatin:0,cyklus:25,
+   note:"Startpunkt. Forsøgte Utrogestan cyklisk men fik vand i kroppen og humørsvingninger.",
+   energy_morning:8,jetlag:5,angst:6,katastrofetanker:8,nervoes:10,uduelig:8,taaerer:8,trist:9,vrede:9,
+   hjernetaage:8,osteklokke:7,ingen_motivation:7,isolation:7,stress_taerskel:9,sukkertrang:7,
+   haevede_fod:5,stive_led:2,omme_led:5,sover_haender:4,el_stod:4,vibrationer:6,indvendig_uro:2,
+   pms:8,uregelmassig_blod:2,mangl_sexlyst:8,orgasme_svaert:3,nervoes_blaere:3,
+   oppustet:6,min_before_sleep:40,wakeups:3,wake_time:2},
+  {date:"2025-06-01",estrogel:3.75,tostran:1,progesteron:"",utrogestan:2,kreatin:0,cyklus:25,
+   note:"God periode. Forsøgte at trappe ned til 2 pump.",
+   energy_morning:5,jetlag:2,angst:2,katastrofetanker:1,nervoes:4,uduelig:4,taaerer:2,trist:3,vrede:5,
+   hjernetaage:2,osteklokke:1,ingen_motivation:1,isolation:1,stress_taerskel:1,sukkertrang:8,
+   haevede_fingre:4,haevede_fod:5,stive_led:4,omme_led:3,sover_haender:2,el_stod:1,vibrationer:2,indvendig_uro:2,
+   oppustet:4,min_before_sleep:10,wakeups:0,wake_time:5,mangl_sexlyst:0,herpes:4},
+  {date:"2025-07-01",estrogel:3.75,tostran:1,progesteron:"0.5x3",utrogestan:2,kreatin:0,cyklus:28,
+   note:"Stabil. Prøver at trappe ned.",
+   energy_morning:4,jetlag:1,angst:3,katastrofetanker:2,nervoes:2,uduelig:2,taaerer:2,trist:2,vrede:2,
+   hjernetaage:1,osteklokke:1,ingen_motivation:1,isolation:1,stress_taerskel:1,sukkertrang:6,
+   haevede_fingre:4,haevede_fod:5,stive_led:5,omme_led:4,sover_haender:2,el_stod:0,vibrationer:2,indvendig_uro:2,
+   oppustet:4,uregelmassig_blod:3,min_before_sleep:15,wakeups:2,wake_time:5},
+  {date:"2025-07-30",estrogel:3.75,tostran:0.5,progesteron:"0.5x3",utrogestan:2,kreatin:0,cyklus:23,
+   note:"Crashede da jeg trappede ned på Estrogel – blev fjern og trist. Blødningsforstyrrelser.",
+   energy_morning:3,jetlag:1,angst:2,katastrofetanker:2,nervoes:2,uduelig:2,taaerer:2,trist:3,vrede:1,
+   hjernetaage:1,osteklokke:1,ingen_motivation:1,isolation:1,stress_taerskel:1,sukkertrang:4,
+   haevede_fingre:5,haevede_fod:4,stive_led:4,omme_led:6,el_stod:2,vibrationer:2,
+   oppustet:4,uregelmassig_blod:3,min_before_sleep:0,wakeups:1,wake_time:5,herpes:4},
+  {date:"2025-08-08",estrogel:3,tostran:0.25,progesteron:"0.5x3",utrogestan:2,kreatin:0,cyklus:null,
+   note:"Crashede igen. Influenza-symptomer, osteklokke, træthed og tristhed. Trapper op til 2,9. Blødningsforstyrrelser.",
+   energy_morning:6,jetlag:2,angst:0,katastrofetanker:0,nervoes:0,uduelig:4,taaerer:2,trist:5,vrede:4,
+   hjernetaage:2,osteklokke:3,ingen_motivation:3,isolation:0,stress_taerskel:0,sukkertrang:0,
+   haevede_fingre:4,haevede_fod:3,stive_led:4,omme_led:6,el_stod:2,vibrationer:2,indvendig_uro:2,
+   omt_bryster:1,uregelmassig_blod:4,oppustet:0,sure_opstod:2,min_before_sleep:20,wakeups:2,wake_time:1},
+  {date:"2025-08-22",estrogel:2.8,tostran:0.25,progesteron:"0.5x3",utrogestan:2,kreatin:0,cyklus:5,
+   note:"Torsdag-crashes. Cravings om eftermiddagen. Løb tør for Tostran i 3 dage. Trappe op på Tostran for energi. Vejer 80 kg.",
+   energy_morning:2,jetlag:5,angst:2,katastrofetanker:2,nervoes:3,uduelig:5,taaerer:3,trist:5,vrede:3,
+   hjernetaage:6,osteklokke:5,ingen_motivation:4,isolation:5,stress_taerskel:4,sukkertrang:7,
+   stive_led:3,omme_led:6,el_stod:3,vibrationer:3,indvendig_uro:2,
+   uregelmassig_blod:6,pletblod:3,hovedpine:3,tryk_hoved:6,oppustet:3,svimmelhed:3,tor_mund:2,
+   mangl_sexlyst:2,orgasme_svaert:3,inkontinens:2,nervoes_blaere:3,herpes:4,tandkod:1,
+   min_before_sleep:0,wakeups:1,wake_time:1},
+  {date:"2025-09-21",estrogel:2.7,tostran:0.25,progesteron:"0.5x3",utrogestan:2,kreatin:0,cyklus:21,
+   note:"Progesteron vaginalt om morgenen – beroligende effekt. Menstruation udebliver.",
+   energy_morning:1,jetlag:4,angst:0,katastrofetanker:3,nervoes:3,uduelig:3,taaerer:2,trist:7,vrede:2,
+   hjernetaage:5,osteklokke:5,ingen_motivation:5,isolation:5,stress_taerskel:5,sukkertrang:7,
+   stive_led:2,omme_led:3,el_stod:2,vibrationer:3,indvendig_uro:3,krible_kloe:3,tor_hud:2,
+   uregelmassig_blod:0,hovedpine:3,kvalme:2,mangl_sexlyst:2,tandkod:2,min_before_sleep:5,wakeups:2,wake_time:1},
+  {date:"2025-09-29",estrogel:2.7,tostran:0.4,progesteron:"0.5x3",utrogestan:2,kreatin:0,cyklus:30,
+   note:"Svarblødning efter nedtrapning af progesteron. Energi til at træne, sexlyst tilbage. Humøret er godt! Irritabel ved for høj Tostran.",
+   energy_morning:4,jetlag:0,angst:0,katastrofetanker:3,nervoes:4,uduelig:0,taaerer:0,trist:5,vrede:0,
+   hjernetaage:0,osteklokke:0,ingen_motivation:5,isolation:5,stress_taerskel:0,sukkertrang:7,
+   haevede_fingre:2,stive_led:0,omme_led:0,omt_bryster:1,forstoppelse:2,oppustet:2,
+   hedeture_nat:1,min_before_sleep:10,wakeups:0,wake_time:0},
+  {date:"2025-11-09",estrogel:2.5,tostran:0.4,progesteron:"0.5x2",utrogestan:3,kreatin:0,cyklus:null,
+   note:"Menstruation mangler. Progesteron vaginalt morgen. Revner i mundvige.",
+   energy_morning:4,jetlag:0,angst:0,katastrofetanker:1,nervoes:0,uduelig:2,taaerer:0,trist:0,vrede:2,
+   hjernetaage:0,osteklokke:0,ingen_motivation:2,isolation:3,stress_taerskel:3,sukkertrang:2,
+   haevede_fingre:3,haevede_fod:3,stive_led:4,omme_led:4,tryk_hoved:1,sure_opstod:3,
+   tinnitus:2,orgasme_svaert:3,uregelmassig_blod:7,min_before_sleep:10,wakeups:1,wake_time:1},
+  {date:"2025-12-09",estrogel:2.8,tostran:0.3,progesteron:"0.5 morgen",utrogestan:2,kreatin:0,cyklus:3,
+   note:"Svarblødning. Energi, sexlyst, godt humør! Trappe lidt ned på Tostran pga. irritabilitet.",
+   energy_morning:5,jetlag:0,angst:0,katastrofetanker:0,nervoes:0,uduelig:0,taaerer:3,trist:0,vrede:3,
+   hjernetaage:0,osteklokke:0,ingen_motivation:0,isolation:3,stress_taerskel:0,sukkertrang:5,
+   haevede_fingre:3,haevede_fod:3,stive_led:4,omme_led:4,hedeture_dag:1,hedeture_nat:3,
+   tinnitus:4,tandkod:4,min_before_sleep:10,wakeups:1,wake_time:2},
+  {date:"2026-02-21",estrogel:2.7,tostran:0.3,progesteron:"",utrogestan:2,kreatin:0,cyklus:43,
+   note:"Ængstelig og bekymret i over en måned. Mistanke om for lidt østrogen. Mange nye symptomer.",
+   energy_morning:5,jetlag:6,angst:8,katastrofetanker:8,nervoes:8,uduelig:3,taaerer:4,trist:6,vrede:3,
+   hjernetaage:4,osteklokke:0,ingen_motivation:4,isolation:5,stress_taerskel:7,sukkertrang:7,
+   haevede_fingre:6,haevede_fod:6,stive_led:5,omme_led:6,indvendig_uro:7,tor_hud:7,
+   tinnitus:6,tor_underliv:6,mangl_sexlyst:0,inkontinens:6,nervoes_blaere:6,
+   oppustet:5,aendret_lugt:6,smagsforstyrrelser:6,min_before_sleep:10,wakeups:2,wake_time:2},
 ];
 
-const SK = 'hormon_v3';
-function load() { try { return JSON.parse(localStorage.getItem(SK)) || [...HISTORICAL]; } catch { return [...HISTORICAL]; } }
-function persist(e) { localStorage.setItem(SK, JSON.stringify(e)); }
+const SK='hormon_v5';
+function load(){try{return JSON.parse(localStorage.getItem(SK))||[...HISTORICAL];}catch{return[...HISTORICAL];}}
+function persist(e){localStorage.setItem(SK,JSON.stringify(e));}
 
-let entries = load();
-// merge historical
-const dates = entries.map(e=>e.date);
-HISTORICAL.forEach(h=>{ if(!dates.includes(h.date)) entries.push(h); });
+let entries=load();
+const dates=entries.map(e=>e.date);
+HISTORICAL.forEach(h=>{if(!dates.includes(h.date))entries.push(h);});
 entries.sort((a,b)=>a.date.localeCompare(b.date));
 persist(entries);
 
-// Build sliders
-Object.keys(SECTIONS).forEach(sec => {
-  const div = document.getElementById('sliders-'+sec);
-  SECTIONS[sec].items.forEach(item => {
-    const row = document.createElement('div');
-    row.className = 'symptom-row';
-    row.innerHTML = `<span class="symptom-name">${item.label}</span>
+// ===== TODAY =====
+function todayStr(){return new Date().toISOString().split('T')[0];}
+
+// ===== BUILD SLIDERS =====
+Object.keys(SECTIONS).forEach(sec=>{
+  const div=document.getElementById('sliders-'+sec);
+  SECTIONS[sec].items.forEach(item=>{
+    const row=document.createElement('div');
+    row.className='symptom-row';
+    row.innerHTML=`<span class="symptom-name">${item.label}</span>
       <div class="slider-wrap">
         <input type="range" class="slider" id="s-${item.key}" min="0" max="${item.max}" step="1" value="0"
           oninput="document.getElementById('sv-${item.key}').textContent=this.value">
@@ -395,278 +328,234 @@ Object.keys(SECTIONS).forEach(sec => {
   });
 });
 
-function setToday() { document.getElementById('log-date').value = new Date().toISOString().split('T')[0]; }
+function setToday(){document.getElementById('log-date').value=todayStr();}
 setToday();
 
-function saveEntry() {
-  const date = document.getElementById('log-date').value;
-  if (!date) { alert('Vælg en dato'); return; }
-  const entry = {
+// ===== SAVE =====
+function saveEntry(){
+  const date=document.getElementById('log-date').value;
+  if(!date){alert('Vælg en dato');return;}
+  const entry={
     date,
-    estrogel: parseFloat(document.getElementById('d-estrogel').value)||0,
-    tostran: parseFloat(document.getElementById('d-tostran').value)||0,
-    progesteron: document.getElementById('d-prog').value,
-    utrogestan: parseFloat(document.getElementById('d-utro').value)||0,
-    kreatin: parseFloat(document.getElementById('d-kreatin').value)||0,
-    cyklus: parseInt(document.getElementById('d-cyklus').value)||null,
-    note: document.getElementById('log-note').value,
+    estrogel:parseFloat(document.getElementById('d-estrogel').value)||0,
+    tostran:parseFloat(document.getElementById('d-tostran').value)||0,
+    progesteron:document.getElementById('d-prog').value,
+    utrogestan:parseFloat(document.getElementById('d-utro').value)||0,
+    kreatin:parseFloat(document.getElementById('d-kreatin').value)||0,
+    cyklus:parseInt(document.getElementById('d-cyklus').value)||null,
+    note:document.getElementById('log-note').value,
   };
-  Object.values(SECTIONS).forEach(s => s.items.forEach(item => {
-    const el = document.getElementById('s-'+item.key);
-    if (el) entry[item.key] = parseInt(el.value);
+  Object.values(SECTIONS).forEach(s=>s.items.forEach(item=>{
+    const el=document.getElementById('s-'+item.key);
+    if(el)entry[item.key]=parseInt(el.value);
   }));
-  const idx = entries.findIndex(e=>e.date===date);
-  if (idx>=0) entries[idx]=entry; else entries.push(entry);
+  const idx=entries.findIndex(e=>e.date===date);
+  if(idx>=0)entries[idx]=entry;else entries.push(entry);
   entries.sort((a,b)=>a.date.localeCompare(b.date));
   persist(entries);
-  const t = document.getElementById('toast');
-  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2000);
+  const t=document.getElementById('toast');
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);
 }
 
-function renderHistory() {
-  const list = document.getElementById('history-list');
-  list.innerHTML = '';
-  [...entries].reverse().forEach(e => {
-    const div = document.createElement('div');
-    div.className = 'hist-entry';
-    const ds = new Date(e.date).toLocaleDateString('da-DK',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-    div.innerHTML = `<div class="hist-date">${ds}</div>
-      <div class="hist-doses">Estrogel: <b>${e.estrogel} ml</b> &nbsp;·&nbsp; Tostran: <b>${e.tostran} pump</b> &nbsp;·&nbsp; Utrogestan: <b>${e.utrogestan}</b>${e.progesteron?` &nbsp;·&nbsp; Prog: <b>${e.progesteron}</b>`:''}</div>
-      ${e.note?`<div class="hist-status">${e.note.slice(0,140)}${e.note.length>140?'…':''}</div>`:''}`;
-    div.onclick = () => loadEntry(e);
-    list.appendChild(div);
+function loadEntry(e){
+  ['estrogel','tostran','utrogestan','cyklus','kreatin'].forEach(k=>{
+    const el=document.getElementById('d-'+k);if(el)el.value=e[k]||'';
   });
-}
-
-function loadEntry(e) {
-  ['estrogel','tostran','utrogestan','cyklus','kreatin'].forEach(k=>{ const el=document.getElementById('d-'+k); if(el) el.value=e[k]||''; });
-  document.getElementById('d-prog').value = e.progesteron||'';
-  document.getElementById('log-date').value = e.date;
-  document.getElementById('log-note').value = e.note||'';
+  document.getElementById('d-prog').value=e.progesteron||'';
+  document.getElementById('log-date').value=e.date;
+  document.getElementById('log-note').value=e.note||'';
   Object.values(SECTIONS).forEach(s=>s.items.forEach(item=>{
     const sl=document.getElementById('s-'+item.key);
     const sv=document.getElementById('sv-'+item.key);
-    if(sl&&e[item.key]!==undefined){sl.value=e[item.key];sv.textContent=e[item.key];}
-    else if(sl){sl.value=0;sv.textContent=0;}
+    if(sl){sl.value=e[item.key]!==undefined?e[item.key]:0;sv.textContent=sl.value;}
   }));
   show('log');
 }
 
-// ANALYSIS
-let anaTab = 'overview';
-document.querySelectorAll('#analysis-tabs .tab-btn').forEach(btn => {
-  btn.onclick = () => {
-    anaTab = btn.dataset.tab;
+// ===== SVG CHART ENGINE =====
+// dataPoints: array of {x: dateStr or null (=today), y: number}
+// xRange: [minDateStr, maxDateStr] – maxDateStr defaults to today
+function makeChart(series, opts){
+  // opts: {w, h, pad, yMax, yMaxR, dualAxis}
+  const {w,h,pad,yMax,yMaxR,dualAxis}=opts;
+  const iw=w-pad.l-pad.r, ih=h-pad.t-pad.b;
+
+  // Determine x domain: from first entry to TODAY
+  const today=todayStr();
+  const allDates=[...entries.map(e=>e.date), today];
+  const minT=new Date(allDates.reduce((a,b)=>a<b?a:b)).getTime();
+  const maxT=new Date(today).getTime();
+  const tRange=maxT-minT||1;
+
+  function xOf(dateStr){
+    const t=new Date(dateStr).getTime();
+    return pad.l+((t-minT)/tRange)*iw;
+  }
+  function yOfL(v){return pad.t+ih-(v/yMax)*ih;}
+  function yOfR(v){return pad.t+ih-(v/(yMaxR||10))*ih;}
+
+  let out='';
+
+  // Grid
+  [0,.25,.5,.75,1].forEach(p=>{
+    const y=pad.t+ih*(1-p);
+    out+=`<line x1="${pad.l}" x2="${w-pad.r}" y1="${y}" y2="${y}" stroke="#e8d9ce" stroke-width="1"/>`;
+    out+=`<text x="${pad.l-5}" y="${y+3}" font-size="9" fill="#b85c38" text-anchor="end">${(p*yMax).toFixed(1)}</text>`;
+    if(dualAxis)out+=`<text x="${w-pad.r+5}" y="${y+3}" font-size="9" fill="#7a6aaa" text-anchor="start">${Math.round(p*(yMaxR||10))}</text>`;
+  });
+
+  // X axis ticks – monthly
+  {
+    const startDate=new Date(minT);
+    startDate.setDate(1);
+    const cur=new Date(startDate);
+    while(cur.getTime()<=maxT){
+      const x=xOf(cur.toISOString().split('T')[0]);
+      const label=cur.toLocaleDateString('da-DK',{month:'short',year:'2-digit'});
+      out+=`<text x="${x}" y="${h-4}" font-size="9" fill="#8a6a58" text-anchor="middle">${label}</text>`;
+      out+=`<line x1="${x}" x2="${x}" y1="${pad.t+ih}" y2="${pad.t+ih+4}" stroke="#e8d9ce" stroke-width="1"/>`;
+      cur.setMonth(cur.getMonth()+1);
+    }
+    // Today marker
+    const tx=xOf(today);
+    out+=`<line x1="${tx}" x2="${tx}" y1="${pad.t}" y2="${pad.t+ih}" stroke="#b85c38" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>`;
+    out+=`<text x="${tx}" y="${pad.t-3}" font-size="8" fill="#b85c38" text-anchor="middle">i dag</text>`;
+  }
+
+  // Draw series
+  series.forEach(s=>{
+    const pts=s.points.filter(p=>p.y!=null&&p.y!==undefined);
+    if(!pts.length)return;
+    const yFn=s.rightAxis?yOfR:yOfL;
+    let d='';
+    pts.forEach((p,i)=>{
+      const x=xOf(p.x), y=yFn(p.y);
+      d+=`${i===0?'M':'L'}${x.toFixed(1)} ${y.toFixed(1)} `;
+    });
+    out+=`<path d="${d}" fill="none" stroke="${s.color}" stroke-width="${s.width||2}" stroke-linejoin="round" ${s.dash?`stroke-dasharray="${s.dash}"`:''} opacity="${s.opacity||1}"/>`;
+    if(s.dots){
+      pts.forEach(p=>{
+        const x=xOf(p.x), y=yFn(p.y);
+        out+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${s.dotR||4}" fill="${s.color}" opacity="0.9"/>`;
+      });
+    }
+  });
+  return out;
+}
+
+function entryPoints(key){
+  return entries.filter(e=>e[key]!=null&&e[key]!==undefined).map(e=>({x:e.date,y:parseFloat(e[key])||0}));
+}
+
+// ===== HISTORY PAGE =====
+function renderHistory(){
+  // Dosering charts
+  const hc=document.getElementById('hist-charts');
+  const w=Math.min(860,window.innerWidth-60),h=130,pad={l:42,r:16,t:18,b:24};
+  const doseConfigs=[
+    {key:'estrogel',label:'Estrogel (ml)',color:'#b85c38',yMax:5},
+    {key:'utrogestan',label:'Utrogestan (tablet)',color:'#d4883a',yMax:4},
+    {key:'tostran',label:'Tostran (pump)',color:'#3a7068',yMax:2},
+  ];
+  hc.innerHTML=doseConfigs.map(dc=>{
+    const series=[{points:entryPoints(dc.key),color:dc.color,width:2.5,dots:true,dotR:3}];
+    const svg=makeChart(series,{w,h,pad,yMax:dc.yMax});
+    return `<div style="margin-bottom:14px">
+      <div style="font-size:12px;font-weight:600;color:${dc.color};margin-bottom:4px">${dc.label}</div>
+      <div class="chart-wrap"><svg width="${w}" height="${h}">${svg}</svg></div>
+    </div>`;
+  }).join('');
+
+  // Entry list
+  const list=document.getElementById('history-list');
+  list.innerHTML='';
+  [...entries].reverse().forEach(e=>{
+    const div=document.createElement('div');
+    div.className='hist-entry';
+    const ds=new Date(e.date).toLocaleDateString('da-DK',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    div.innerHTML=`<div class="hist-date">${ds}</div>
+      <div class="hist-doses">Estrogel: <b>${e.estrogel} ml</b> &nbsp;·&nbsp; Tostran: <b>${e.tostran} pump</b> &nbsp;·&nbsp; Utrogestan: <b>${e.utrogestan}</b>${e.progesteron?` &nbsp;·&nbsp; Prog: <b>${e.progesteron}</b>`:''}${e.kreatin?` &nbsp;·&nbsp; Kreatin: <b>${e.kreatin}g</b>`:''}</div>
+      ${e.note?`<div class="hist-status">${e.note.slice(0,140)}${e.note.length>140?'…':''}</div>`:''}`;
+    div.onclick=()=>loadEntry(e);
+    list.appendChild(div);
+  });
+}
+
+// ===== ANALYSIS =====
+let anaTab='overview';
+document.querySelectorAll('#analysis-tabs .tab-btn').forEach(btn=>{
+  btn.onclick=()=>{
+    anaTab=btn.dataset.tab;
     document.querySelectorAll('#analysis-tabs .tab-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
     renderAnalysis();
   };
 });
 
-function avg(arr) { return arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : 0; }
+function avg(arr){return arr.length?arr.reduce((a,b)=>a+b,0)/arr.length:0;}
 
-function renderAnalysis() {
-  const c = document.getElementById('analysis-content');
-  if (anaTab==='overview') renderOverview(c);
-  else if (anaTab==='kombineret') renderKombineret(c);
-  else if (anaTab==='estrogel') renderDoseChart(c,'estrogel','Østrogen – Estrogel (ml)','#b85c38',5);
-  else if (anaTab==='tostran') renderDoseChart(c,'tostran','Tostran (antal pump)','#3a7068',2);
-  else if (anaTab==='mood') renderMoodChart(c);
-  else if (anaTab==='correlations') renderCorrelations(c);
+function renderAnalysis(){
+  const c=document.getElementById('analysis-content');
+  if(anaTab==='overview')renderOverview(c);
+  else if(anaTab==='kombineret')renderKombineret(c);
+  else if(anaTab==='estrogel')renderSingleDoseChart(c,'estrogel','Østrogen – Estrogel (ml)','#b85c38',5);
+  else if(anaTab==='tostran')renderSingleDoseChart(c,'tostran','Tostran (antal pump)','#3a7068',2);
+  else if(anaTab==='mood')renderMoodChart(c);
+  else if(anaTab==='correlations')renderCorrelations(c);
 }
 
-function svgChart(entries, series, w, h, pad, yMax) {
-  const n = entries.length;
-  const iw = w-pad.l-pad.r, ih = h-pad.t-pad.b;
-  let out = '';
-  // grid
-  [0,.25,.5,.75,1].forEach(p=>{
-    const y = pad.t+ih*(1-p);
-    out += `<line x1="${pad.l}" x2="${w-pad.r}" y1="${y}" y2="${y}" stroke="#e8d9ce" stroke-width="1"/>`;
-    out += `<text x="${pad.l-4}" y="${y+3}" font-size="9" fill="#8a6a58" text-anchor="end">${(p*yMax).toFixed(p<1?1:0)}</text>`;
-  });
-  // x labels
-  entries.forEach((e,i)=>{
-    if(i%2===0||i===n-1){
-      const x=pad.l+(i/(n-1||1))*iw;
-      const d=new Date(e.date).toLocaleDateString('da-DK',{month:'short',year:'2-digit'});
-      out+=`<text x="${x}" y="${h-5}" font-size="9" fill="#8a6a58" text-anchor="middle">${d}</text>`;
-    }
-  });
-  // series
-  series.forEach(s=>{
-    let d='';
-    entries.forEach((e,i)=>{
-      const x=pad.l+(i/(n-1||1))*iw;
-      const v=(e[s.key]||0);
-      const y=pad.t+ih-(v/yMax)*ih;
-      d+=`${i===0?'M':'L'}${x} ${y} `;
-    });
-    out+=`<path d="${d}" fill="none" stroke="${s.color}" stroke-width="${s.width||2.5}" stroke-linejoin="round" ${s.dash?`stroke-dasharray="${s.dash}"`:''}/>`; 
-    if(s.dots) entries.forEach((e,i)=>{
-      const x=pad.l+(i/(n-1||1))*iw;
-      const y=pad.t+ih-((e[s.key]||0)/yMax)*ih;
-      out+=`<circle cx="${x}" cy="${y}" r="4" fill="${s.color}" opacity="0.85"/>`;
-    });
-  });
-  return out;
-}
-
-function renderOverview(c) {
-  const n=entries.length, last=entries[n-1], first=entries[0];
+function renderOverview(c){
+  const n=entries.length,last=entries[n-1],first=entries[0];
   const moodKeys=['angst','trist','nervoes','hjernetaage','katastrofetanker'];
   const lastM=avg(moodKeys.map(k=>last[k]||0));
   const firstM=avg(moodKeys.map(k=>first[k]||0));
   const diff=lastM-firstM;
   const pill=diff<-1?`<span class="pill pill-down">↓ ${Math.abs(diff).toFixed(1)}</span>`:diff>1?`<span class="pill pill-up">↑ ${diff.toFixed(1)}</span>`:`<span class="pill pill-neu">~stabil</span>`;
-  const w=Math.min(860,window.innerWidth-32), h=170, pad={l:36,r:10,t:18,b:30};
-  const svg=svgChart(entries,[
-    {key:'estrogel',color:'#b85c38',width:2.5},
-    {key:'angst',color:'#c03060',width:2,dash:'5,3'},
-    {key:'trist',color:'#7a6aaa',width:2,dash:'5,3'},
-  ],w,h,pad,10);
+
+  const w=Math.min(860,window.innerWidth-32),h=180,pad={l:42,r:16,t:22,b:28};
+  const series=[
+    {points:entryPoints('estrogel'),color:'#b85c38',width:2.5,dots:true,dotR:3},
+    {points:entryPoints('angst'),color:'#c03060',width:1.5,dash:'5,3'},
+    {points:entryPoints('trist'),color:'#7a6aaa',width:1.5,dash:'5,3'},
+  ];
+  const svg=makeChart(series,{w,h,pad,yMax:10});
+
   c.innerHTML=`
     <div class="analysis-grid">
       <div class="stat-card"><div class="stat-label">Registreringer</div><div class="stat-value">${n}</div><div class="stat-sub">siden ${new Date(first.date).toLocaleDateString('da-DK',{month:'long',year:'numeric'})}</div></div>
       <div class="stat-card"><div class="stat-label">Nuværende Estrogel</div><div class="stat-value">${last.estrogel}</div><div class="stat-sub">ml (start: ${first.estrogel} ml)</div></div>
-      <div class="stat-card"><div class="stat-label">Nuværende humør/angst</div><div class="stat-value">${lastM.toFixed(1)}</div><div class="stat-sub">vs. start ${pill}</div></div>
+      <div class="stat-card"><div class="stat-label">Humør/angst-score nu</div><div class="stat-value">${lastM.toFixed(1)}</div><div class="stat-sub">vs. start ${pill}</div></div>
       <div class="stat-card"><div class="stat-label">Nuværende Tostran</div><div class="stat-value">${last.tostran}</div><div class="stat-sub">pump (start: ${first.tostran})</div></div>
     </div>
     <div class="insight">
       <div class="insight-title">🔍 Vigtigste observationer</div>
       <div class="insight-text">
-        <b>Østrogen-følsomhed:</b> Du crasher konsekvent under ~2,7–2,8 ml Estrogel – med tristhed, osteklokke og træthed inden for 3 dage ved nedtrapning.<br><br>
+        <b>Østrogen-følsomhed:</b> Du crasher konsekvent under ~2,7–2,8 ml Estrogel – tristhed, osteklokke og træthed inden for 3 dage ved nedtrapning.<br><br>
         <b>Feb 2025:</b> Angst og bekymring på 8/10 – dit højeste siden nov 2023. Symptommønsteret peger på østrogenmangel.<br><br>
-        <b>Tostran-balance:</b> Over 0,5 pump → irritabilitet. Under 0,25 pump → energidrop. Sweet spot ser ud til at være 0,3–0,4 pump.
+        <b>Tostran-balance:</b> Over 0,5 pump → irritabilitet. Under 0,25 pump → energidrop. Sweet spot: 0,3–0,4 pump.
       </div>
     </div>
     <div class="card">
-      <div class="card-title">📈 Østrogen (–) og humør/angst (stiplede) over tid</div>
-      <div class="chart-wrap"><svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${svg}
-        <rect x="36" y="6" width="10" height="3" fill="#b85c38" rx="1"/><text x="50" y="11" font-size="9" fill="#b85c38">Estrogel ml</text>
-        <rect x="110" y="6" width="10" height="3" fill="#c03060" rx="1"/><text x="124" y="11" font-size="9" fill="#c03060">Angst</text>
-        <rect x="160" y="6" width="10" height="3" fill="#7a6aaa" rx="1"/><text x="174" y="11" font-size="9" fill="#7a6aaa">Tristhed</text>
+      <div class="card-title">📈 Østrogen (—) og humør/angst (---) over tid til i dag</div>
+      <div class="chart-wrap"><svg width="${w}" height="${h}">
+        ${svg}
+        <rect x="${pad.l}" y="8" width="12" height="3" fill="#b85c38" rx="1"/>
+        <text x="${pad.l+16}" y="13" font-size="9" fill="#b85c38">Estrogel ml</text>
+        <line x1="${pad.l+80}" x2="${pad.l+92}" y1="10" y2="10" stroke="#c03060" stroke-width="2" stroke-dasharray="4,2"/>
+        <text x="${pad.l+96}" y="13" font-size="9" fill="#c03060">Angst</text>
+        <line x1="${pad.l+130}" x2="${pad.l+142}" y1="10" y2="10" stroke="#7a6aaa" stroke-width="2" stroke-dasharray="4,2"/>
+        <text x="${pad.l+146}" y="13" font-size="9" fill="#7a6aaa">Tristhed</text>
       </svg></div>
     </div>`;
 }
 
-function renderDoseChart(c, key, label, color, yMax) {
-// ---- KOMBINER CHART STATE ----
-const DOSE_OPTIONS = [
-  { key:'estrogel', label:'Estrogel (ml)', color:'#b85c38', group:'dose' },
-  { key:'utrogestan', label:'Utrogestan (tablet)', color:'#d4883a', group:'dose' },
-  { key:'tostran', label:'Tostran (pump)', color:'#3a7068', group:'dose' },
-];
-const SYMPTOM_OPTIONS = [
-  { key:'omme_led', label:'Ømme led', color:'#8a7060', group:'symptom' },
-  { key:'haevede_fod', label:'Hævede fødder', color:'#5a6890', group:'symptom' },
-  { key:'angst', label:'Angst', color:'#c03060', group:'symptom' },
-  { key:'katastrofetanker', label:'Katastrofetanker', color:'#b85c38', group:'symptom' },
-  { key:'nervoes', label:'Nervøs/bekymret', color:'#b8882a', group:'symptom' },
-  { key:'trist', label:'Trist/depressiv', color:'#7a6aaa', group:'symptom' },
-  { key:'stress_taerskel', label:'Lav stress-tærskel', color:'#c04880', group:'symptom' },
-  { key:'taaerer', label:'Let til tårer', color:'#6a7ab8', group:'symptom' },
-];
-
-let kombiSelected = { dose: new Set(['estrogel']), symptom: new Set(['angst','trist']) };
-
-function renderKombineret(c) {
-  const doseToggles = DOSE_OPTIONS.map(o => {
-    const on = kombiSelected.dose.has(o.key);
-    return `<label class="combo-toggle ${on?'checked':''}" style="border-color:${o.color};${on?`background:${o.color}`:`color:${o.color}`}" data-group="dose" data-key="${o.key}"><input type="checkbox" ${on?'checked':''}><span>${o.label}</span></label>`;
-  }).join('');
-  const symptomToggles = SYMPTOM_OPTIONS.map(o => {
-    const on = kombiSelected.symptom.has(o.key);
-    return `<label class="combo-toggle ${on?'checked':''}" style="border-color:${o.color};${on?`background:${o.color}`:`color:${o.color}`}" data-group="symptom" data-key="${o.key}"><input type="checkbox" ${on?'checked':''}><span>${o.label}</span></label>`;
-  }).join('');
-
-  const w = Math.min(860, window.innerWidth-32);
-  const h = 270, pad = {l:46, r:46, t:36, b:38};
-  const iw = w-pad.l-pad.r, ih = h-pad.t-pad.b;
-  const n = entries.length;
-  const doseScale = 5, sympScale = 10;
-  let svgOut = '';
-
-  [0,.25,.5,.75,1].forEach(p => {
-    const y = pad.t+ih*(1-p);
-    svgOut += `<line x1="${pad.l}" x2="${w-pad.r}" y1="${y}" y2="${y}" stroke="#e8d9ce" stroke-width="1"/>`;
-    svgOut += `<text x="${pad.l-6}" y="${y+3}" font-size="9" fill="#b85c38" text-anchor="end">${(p*doseScale).toFixed(1)}</text>`;
-    svgOut += `<text x="${w-pad.r+6}" y="${y+3}" font-size="9" fill="#7a6aaa" text-anchor="start">${Math.round(p*sympScale)}</text>`;
-  });
-  svgOut += `<text x="${pad.l-38}" y="${pad.t+ih/2}" font-size="9" fill="#b85c38" text-anchor="middle" transform="rotate(-90 ${pad.l-38} ${pad.t+ih/2})">Dosis</text>`;
-  svgOut += `<text x="${w-pad.r+38}" y="${pad.t+ih/2}" font-size="9" fill="#7a6aaa" text-anchor="middle" transform="rotate(90 ${w-pad.r+38} ${pad.t+ih/2})">Symptom (0–10)</text>`;
-
-  entries.forEach((e,i) => {
-    if (i%2===0||i===n-1) {
-      const x = pad.l+(i/(n-1||1))*iw;
-      const d = new Date(e.date).toLocaleDateString('da-DK',{month:'short',year:'2-digit'});
-      svgOut += `<text x="${x}" y="${h-5}" font-size="9" fill="#8a6a58" text-anchor="middle">${d}</text>`;
-    }
-  });
-
-  DOSE_OPTIONS.filter(o=>kombiSelected.dose.has(o.key)).forEach(o => {
-    let d='';
-    entries.forEach((e,i) => {
-      const x=pad.l+(i/(n-1||1))*iw, y=pad.t+ih-((e[o.key]||0)/doseScale)*ih;
-      d+=`${i===0?'M':'L'}${x} ${y} `;
-    });
-    svgOut+=`<path d="${d}" fill="none" stroke="${o.color}" stroke-width="3" stroke-linejoin="round"/>`;
-    entries.forEach((e,i)=>{
-      const x=pad.l+(i/(n-1||1))*iw, y=pad.t+ih-((e[o.key]||0)/doseScale)*ih;
-      svgOut+=`<circle cx="${x}" cy="${y}" r="4" fill="${o.color}" opacity="0.9"/>`;
-    });
-  });
-
-  SYMPTOM_OPTIONS.filter(o=>kombiSelected.symptom.has(o.key)).forEach(o => {
-    let d='';
-    entries.forEach((e,i) => {
-      const x=pad.l+(i/(n-1||1))*iw, y=pad.t+ih-((e[o.key]||0)/sympScale)*ih;
-      d+=`${i===0?'M':'L'}${x} ${y} `;
-    });
-    svgOut+=`<path d="${d}" fill="none" stroke="${o.color}" stroke-width="2" stroke-dasharray="6,3" stroke-linejoin="round"/>`;
-    entries.forEach((e,i)=>{
-      const x=pad.l+(i/(n-1||1))*iw, y=pad.t+ih-((e[o.key]||0)/sympScale)*ih;
-      svgOut+=`<circle cx="${x}" cy="${y}" r="3" fill="${o.color}" opacity="0.85"/>`;
-    });
-  });
-
-  // legend
-  let legX=pad.l, legY=16;
-  [...DOSE_OPTIONS.filter(o=>kombiSelected.dose.has(o.key)),...SYMPTOM_OPTIONS.filter(o=>kombiSelected.symptom.has(o.key))].forEach(o=>{
-    if(o.group==='dose'){svgOut+=`<rect x="${legX}" y="${legY-5}" width="16" height="3" fill="${o.color}" rx="1"/>`;}
-    else{svgOut+=`<line x1="${legX}" x2="${legX+16}" y1="${legY-3}" y2="${legY-3}" stroke="${o.color}" stroke-width="2" stroke-dasharray="5,2"/>`;}
-    svgOut+=`<text x="${legX+20}" y="${legY}" font-size="9" fill="${o.color}">${o.label}</text>`;
-    legX+=o.label.length*5.4+30;
-    if(legX>w-120){legX=pad.l;legY+=13;}
-  });
-
-  c.innerHTML=`<div class="card">
-    <div class="card-title">🔀 Kombiner doser & symptomer</div>
-    <div class="dual-axis-note">Venstre akse: doser (solide linjer) &nbsp;·&nbsp; Højre akse: symptomer 0–10 (stiplede linjer)</div>
-    <div class="combo-controls" id="kombi-controls">
-      <div class="combo-section-label">💊 Doser – vælg op til 3</div>${doseToggles}
-      <div class="combo-section-label">🧠 Symptomer – vælg op til 5</div>${symptomToggles}
-    </div>
-    <div class="chart-wrap"><svg width="${w}" height="${h}">${svgOut}</svg></div>
-  </div>`;
-
-  document.querySelectorAll('#kombi-controls .combo-toggle').forEach(lbl=>{
-    lbl.onclick=()=>{
-      const grp=lbl.dataset.group, key=lbl.dataset.key;
-      const set=grp==='dose'?kombiSelected.dose:kombiSelected.symptom;
-      const max=grp==='dose'?3:5;
-      if(set.has(key)){if(set.size>1)set.delete(key);}
-      else if(set.size<max){set.add(key);}
-      renderKombineret(c);
-    };
-  });
-}
-
-  const w=Math.min(860,window.innerWidth-32), h=200, pad={l:40,r:10,t:20,b:38};
-  const svg=svgChart(entries,[{key,color,width:2.5,dots:true}],w,h,pad,yMax);
+function renderSingleDoseChart(c,key,label,color,yMax){
+  const w=Math.min(860,window.innerWidth-32),h=210,pad={l:42,r:16,t:22,b:28};
+  const series=[{points:entryPoints(key),color,width:2.5,dots:true,dotR:4}];
+  const svg=makeChart(series,{w,h,pad,yMax});
   const vals=entries.map(e=>e[key]||0);
   const mn=Math.min(...vals),mx=Math.max(...vals),av=avg(vals);
-  const isEst = key==='estrogel';
+  const isEst=key==='estrogel';
   c.innerHTML=`
     <div class="card">
       <div class="card-title" style="color:${color}">💊 ${label}</div>
@@ -681,46 +570,175 @@ function renderKombineret(c) {
     <div class="insight">
       <div class="insight-title">Mønster</div>
       <div class="insight-text">${isEst
-        ? `Du startede på 1,25 ml og trappede hurtigt op til 3,75 ml (din bedste periode). Siden har du forsøgt at trappe ned, men crasher ved under 2,7–2,8 ml. Dit tolerancevindue er smalt – gradvis nedtrapning på fx 0,05 ml per 4 uger anbefales.`
-        : `Tostran er trappes ned fra 1 pump til 0,3 pump. For lav dosis (under 0,25) → træthed og energidrop. For høj (over 0,5) → irritabilitet og berøringsfølsomhed. Nuværende 0,3 pump virker som et godt kompromis.`
+        ?'Du startede på 1,25 ml og trappede op til 3,75 ml (din bedste periode). Du crasher ved under 2,7–2,8 ml. Dit tolerancevindue er smalt – gradvis nedtrapning på fx 0,05 ml per 4 uger anbefales.'
+        :'Tostran er trappes ned fra 1 pump til 0,3 pump. For lav (under 0,25) → træthed og energidrop. For høj (over 0,5) → irritabilitet. Nuværende 0,3 pump virker som et godt kompromis.'
       }</div>
     </div>`;
 }
 
-function renderMoodChart(c) {
-  const w=Math.min(860,window.innerWidth-32), h=220, pad={l:36,r:10,t:24,b:38};
-  const series=[
-    {key:'angst',label:'Angst',color:'#c03060',width:2},
-    {key:'trist',label:'Tristhed',color:'#7a6aaa',width:2},
-    {key:'hjernetaage',label:'Hjernetåge',color:'#3a7068',width:2},
-    {key:'stress_taerskel',label:'Lav stresstærskel',color:'#b8882a',width:2},
-    {key:'osteklokke',label:'Osteklokke',color:'#6a8a9a',width:1.5,dash:'4,3'},
+function renderMoodChart(c){
+  const w=Math.min(860,window.innerWidth-32),h=230,pad={l:42,r:16,t:28,b:28};
+  const moodSeries=[
+    {key:'angst',label:'Angst',color:'#c03060'},
+    {key:'trist',label:'Tristhed',color:'#7a6aaa'},
+    {key:'hjernetaage',label:'Hjernetåge',color:'#3a7068'},
+    {key:'stress_taerskel',label:'Lav stresstærskel',color:'#b8882a'},
+    {key:'osteklokke',label:'Osteklokke',color:'#6a8a9a',dash:'4,3'},
   ];
-  const svg=svgChart(entries,series,w,h,pad,10);
-  const legend=series.map((s,i)=>`<rect x="${36+i*90}" y="10" width="10" height="3" fill="${s.color}" rx="1"/><text x="${36+i*90+13}" y="15" font-size="9" fill="${s.color}">${s.label}</text>`).join('');
+  const series=moodSeries.map(s=>({
+    points:entryPoints(s.key),color:s.color,width:2,dash:s.dash,dots:true,dotR:3
+  }));
+  const svg=makeChart(series,{w,h,pad,yMax:10});
+  const legItems=moodSeries.map((s,i)=>`
+    <rect x="${pad.l+i*95}" y="14" width="12" height="3" fill="${s.color}" rx="1"/>
+    <text x="${pad.l+i*95+16}" y="19" font-size="9" fill="${s.color}">${s.label}</text>`).join('');
   c.innerHTML=`
     <div class="card">
       <div class="card-title">🧠 Mentale symptomer over tid</div>
-      <div class="chart-wrap"><svg width="${w}" height="${h}">${svg}${legend}</svg></div>
+      <div class="chart-wrap"><svg width="${w}" height="${h}">${svg}${legItems}</svg></div>
     </div>
     <div class="insight">
       <div class="insight-title">Observation</div>
       <div class="insight-text">
         <b>Lavpunkt:</b> Nov 2023 – angst og tristhed på 8–10/10 ved lav østrogen (1,25 ml).<br>
-        <b>Bedste periode:</b> Jun–Jul 2024 ved 3,75 ml Estrogel – scorer tæt på 0–3 på alle parametre.<br>
-        <b>Nyt spike:</b> Feb 2025 – angst 8/10 igen, selv med 2,7 ml. Mulig sæsonvariation eller behov for dosisjustering.
+        <b>Bedste periode:</b> Jun–Jul 2024 ved 3,75 ml Estrogel – scorer tæt på 0–3.<br>
+        <b>Nyt spike:</b> Feb 2025 – angst 8/10 igen. Mulig østrogenmangel.
       </div>
     </div>`;
 }
 
-function pearson(xs,ys) {
-  const n=xs.length, mx=avg(xs), my=avg(ys);
+// ===== KOMBINER =====
+const DOSE_OPTS=[
+  {key:'estrogel',label:'Estrogel (ml)',color:'#b85c38',group:'dose',scale:5},
+  {key:'utrogestan',label:'Utrogestan',color:'#d4883a',group:'dose',scale:4},
+  {key:'tostran',label:'Tostran (pump)',color:'#3a7068',group:'dose',scale:2},
+];
+const SYMP_OPTS=[
+  {key:'omme_led',label:'Ømme led',color:'#8a7060',group:'symp'},
+  {key:'haevede_fod',label:'Hævede fødder',color:'#5a6890',group:'symp'},
+  {key:'angst',label:'Angst',color:'#c03060',group:'symp'},
+  {key:'katastrofetanker',label:'Katastrofetanker',color:'#b85c38',group:'symp'},
+  {key:'nervoes',label:'Nervøs/bekymret',color:'#b8882a',group:'symp'},
+  {key:'trist',label:'Trist/depressiv',color:'#7a6aaa',group:'symp'},
+  {key:'stress_taerskel',label:'Lav stress-tærskel',color:'#c04880',group:'symp'},
+  {key:'taaerer',label:'Let til tårer',color:'#6a7ab8',group:'symp'},
+];
+
+let kDose=new Set(['estrogel']);
+let kSymp=new Set(['angst','trist']);
+
+function renderKombineret(c){
+  const w=Math.min(860,window.innerWidth-32),h=270,pad={l:46,r:46,t:32,b:28};
+  const iw=w-pad.l-pad.r,ih=h-pad.t-pad.b;
+  const doseScale=5,sympScale=10;
+  const today=todayStr();
+  const allT=[...entries.map(e=>new Date(e.date).getTime()),new Date(today).getTime()];
+  const minT=Math.min(...allT),maxT=Math.max(...allT),tRange=maxT-minT||1;
+  function xOf(ds){return pad.l+((new Date(ds).getTime()-minT)/tRange)*iw;}
+
+  let svgOut='';
+  // Grid + dual axis labels
+  [0,.25,.5,.75,1].forEach(p=>{
+    const y=pad.t+ih*(1-p);
+    svgOut+=`<line x1="${pad.l}" x2="${w-pad.r}" y1="${y}" y2="${y}" stroke="#e8d9ce" stroke-width="1"/>`;
+    svgOut+=`<text x="${pad.l-5}" y="${y+3}" font-size="9" fill="#b85c38" text-anchor="end">${(p*doseScale).toFixed(1)}</text>`;
+    svgOut+=`<text x="${w-pad.r+5}" y="${y+3}" font-size="9" fill="#7a6aaa" text-anchor="start">${Math.round(p*sympScale)}</text>`;
+  });
+  svgOut+=`<text x="${pad.l-36}" y="${pad.t+ih/2}" font-size="9" fill="#b85c38" text-anchor="middle" transform="rotate(-90 ${pad.l-36} ${pad.t+ih/2})">Dosis</text>`;
+  svgOut+=`<text x="${w-pad.r+36}" y="${pad.t+ih/2}" font-size="9" fill="#7a6aaa" text-anchor="middle" transform="rotate(90 ${w-pad.r+36} ${pad.t+ih/2})">Symptom 0–10</text>`;
+
+  // X ticks monthly
+  {
+    const startD=new Date(minT);startD.setDate(1);
+    const cur=new Date(startD);
+    while(cur.getTime()<=maxT){
+      const x=xOf(cur.toISOString().split('T')[0]);
+      svgOut+=`<text x="${x}" y="${h-4}" font-size="9" fill="#8a6a58" text-anchor="middle">${cur.toLocaleDateString('da-DK',{month:'short',year:'2-digit'})}</text>`;
+      cur.setMonth(cur.getMonth()+1);
+    }
+    const tx=xOf(today);
+    svgOut+=`<line x1="${tx}" x2="${tx}" y1="${pad.t}" y2="${pad.t+ih}" stroke="#b85c38" stroke-width="1" stroke-dasharray="3,3" opacity="0.4"/>`;
+  }
+
+  // Dose lines (solid, left axis)
+  DOSE_OPTS.filter(o=>kDose.has(o.key)).forEach(o=>{
+    const pts=entryPoints(o.key);
+    let d='';
+    pts.forEach((p,i)=>{
+      const x=xOf(p.x),y=pad.t+ih-(p.y/o.scale)*ih;
+      d+=`${i===0?'M':'L'}${x.toFixed(1)} ${y.toFixed(1)} `;
+    });
+    svgOut+=`<path d="${d}" fill="none" stroke="${o.color}" stroke-width="3" stroke-linejoin="round"/>`;
+    pts.forEach(p=>{
+      svgOut+=`<circle cx="${xOf(p.x).toFixed(1)}" cy="${(pad.t+ih-(p.y/o.scale)*ih).toFixed(1)}" r="4" fill="${o.color}" opacity="0.9"/>`;
+    });
+  });
+
+  // Symptom lines (dashed, right axis)
+  SYMP_OPTS.filter(o=>kSymp.has(o.key)).forEach(o=>{
+    const pts=entryPoints(o.key);
+    let d='';
+    pts.forEach((p,i)=>{
+      const x=xOf(p.x),y=pad.t+ih-(p.y/sympScale)*ih;
+      d+=`${i===0?'M':'L'}${x.toFixed(1)} ${y.toFixed(1)} `;
+    });
+    svgOut+=`<path d="${d}" fill="none" stroke="${o.color}" stroke-width="2" stroke-dasharray="6,3" stroke-linejoin="round"/>`;
+    pts.forEach(p=>{
+      svgOut+=`<circle cx="${xOf(p.x).toFixed(1)}" cy="${(pad.t+ih-(p.y/sympScale)*ih).toFixed(1)}" r="3" fill="${o.color}" opacity="0.85"/>`;
+    });
+  });
+
+  // Legend top
+  let legX=pad.l,legY=18;
+  [...DOSE_OPTS.filter(o=>kDose.has(o.key)),...SYMP_OPTS.filter(o=>kSymp.has(o.key))].forEach(o=>{
+    if(o.group==='dose'){svgOut+=`<rect x="${legX}" y="${legY-5}" width="14" height="3" fill="${o.color}" rx="1"/>`;}
+    else{svgOut+=`<line x1="${legX}" x2="${legX+14}" y1="${legY-3}" y2="${legY-3}" stroke="${o.color}" stroke-width="2" stroke-dasharray="5,2"/>`;}
+    svgOut+=`<text x="${legX+18}" y="${legY}" font-size="9" fill="${o.color}">${o.label}</text>`;
+    legX+=o.label.length*5.5+28;
+    if(legX>w-100){legX=pad.l;legY+=13;}
+  });
+
+  // Build toggle HTML
+  const doseHTML=DOSE_OPTS.map(o=>{
+    const on=kDose.has(o.key);
+    return `<button class="ctoggle ${on?'on':''}" style="border-color:${o.color};${on?`background:${o.color};`:`color:${o.color};`}" data-group="dose" data-key="${o.key}">${o.label}</button>`;
+  }).join('');
+  const sympHTML=SYMP_OPTS.map(o=>{
+    const on=kSymp.has(o.key);
+    return `<button class="ctoggle ${on?'on':''}" style="border-color:${o.color};${on?`background:${o.color};`:`color:${o.color};`}" data-group="symp" data-key="${o.key}">${o.label}</button>`;
+  }).join('');
+
+  c.innerHTML=`<div class="card">
+    <div class="card-title">🔀 Kombiner doser & symptomer</div>
+    <div class="dual-note">Venstre akse: doser (solide linjer) &nbsp;·&nbsp; Højre akse: symptomer 0–10 (stiplede linjer)</div>
+    <div class="combo-controls" id="kc">
+      <div class="combo-section-label">💊 Doser – vælg op til 3</div>${doseHTML}
+      <div class="combo-section-label">🧠 Symptomer – vælg op til 5</div>${sympHTML}
+    </div>
+    <div class="chart-wrap"><svg width="${w}" height="${h}">${svgOut}</svg></div>
+  </div>`;
+
+  document.querySelectorAll('#kc .ctoggle').forEach(btn=>{
+    btn.onclick=()=>{
+      const grp=btn.dataset.group,key=btn.dataset.key;
+      const set=grp==='dose'?kDose:kSymp;
+      const max=grp==='dose'?3:5;
+      if(set.has(key)){if(set.size>1)set.delete(key);}
+      else if(set.size<max){set.add(key);}
+      renderKombineret(c);
+    };
+  });
+}
+
+// ===== CORRELATIONS =====
+function pearson(xs,ys){
+  const n=xs.length,mx=avg(xs),my=avg(ys);
   let num=0,dx2=0,dy2=0;
   for(let i=0;i<n;i++){num+=(xs[i]-mx)*(ys[i]-my);dx2+=(xs[i]-mx)**2;dy2+=(ys[i]-my)**2;}
   return dx2*dy2>0?num/Math.sqrt(dx2*dy2):0;
 }
 
-function renderCorrelations(c) {
+function renderCorrelations(c){
   const symptoms=[
     {key:'angst',label:'Angst',color:'#c03060'},
     {key:'trist',label:'Tristhed',color:'#7a6aaa'},
@@ -733,7 +751,7 @@ function renderCorrelations(c) {
     {key:'omme_led',label:'Ømme led',color:'#8a7060'},
     {key:'oppustet',label:'Oppustet',color:'#4e8060'},
     {key:'sukkertrang',label:'Sukkertrang',color:'#b8882a'},
-    {key:'jetlag',label:'Jetlag-følelse',color:'#9a7060'},
+    {key:'taaerer',label:'Let til tårer',color:'#6a7ab8'},
   ];
   const eVals=entries.map(e=>e.estrogel||0);
   const corrs=symptoms.map(s=>({...s,r:pearson(eVals,entries.map(e=>e[s.key]||0))})).sort((a,b)=>a.r-b.r);
@@ -750,7 +768,7 @@ function renderCorrelations(c) {
   c.innerHTML=`
     <div class="insight">
       <div class="insight-title">Korrelation: Østrogen ↔ Symptomer</div>
-      <div class="insight-text"><b>Negativ (−):</b> Høj østrogen → symptom falder (godt signal!). <b>Positiv (+):</b> Høj østrogen → symptom stiger.</div>
+      <div class="insight-text"><b>Negativ (−):</b> Høj østrogen → symptom falder. <b>Positiv (+):</b> Høj østrogen → symptom stiger.</div>
     </div>
     <div class="card">
       <div class="card-title">🔗 Estrogel vs. symptomer (Pearson r)</div>
@@ -758,71 +776,16 @@ function renderCorrelations(c) {
     </div>`;
 }
 
-// AI
-const AI_PROMPTS=[
-`Du er en empatisk hormonspecialist-assistent. Analyser disse HRT-hormondata på dansk. Giv:
-1. De 3 vigtigste mønstre du ser
-2. Sammenhæng mellem doser og symptomer
-3. 3 konkrete spørgsmål til lægen
-DATA: {DATA}`,
-`Du er hormonekspert. Analysér østrogen-mønstrene (Estrogel ml) i disse data på dansk:
-- Ved hvilke doser er symptomerne bedst?
-- Hvad sker ved nedtrapning?
-- Hvad er det optimale dose-vindue baseret på data?
-DATA: {DATA}`,
-`Du er ekspert i HRT-nedtrapning. Analysér nedtrapnings-episoderne i disse data på dansk:
-- Mønster i crash-episoder (hvornår + ved hvilke doser)
-- Tolerance for nedtrapningshastighed
-- Strategier for langsommere nedtrapning
-DATA: {DATA}`,
-`Du er psykiater specialiseret i hormonrelateret humørpåvirkning. Analysér disse data på dansk:
-- Sammenhæng mellem østrogen og angst/bekymring
-- Hvornår er humøret bedst og hvorfor?
-- Er angst-spikes relateret til hormondoser?
-DATA: {DATA}`];
-
-let aiPromptIdx=0;
-document.querySelectorAll('#ai-prompt-tabs .tab-btn').forEach((btn,i)=>{
-  btn.onclick=()=>{
-    aiPromptIdx=i;
-    document.querySelectorAll('#ai-prompt-tabs .tab-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-  };
-});
-
-async function runAI() {
-  const btn=document.getElementById('ai-run-btn');
-  const out=document.getElementById('ai-output');
-  btn.disabled=true; btn.textContent='⏳ Analyserer...';
-  out.innerHTML='<span class="thinking">Analyserer dine data... et øjeblik.</span>';
-  const data=JSON.stringify(entries.map(e=>({
-    dato:e.date, estrogel:e.estrogel, tostran:e.tostran, utrogestan:e.utrogestan, progesteron:e.progesteron,
-    angst:e.angst, trist:e.trist, nervoes:e.nervoes, hjernetaage:e.hjernetaage, katastrofetanker:e.katastrofetanker,
-    isolation:e.isolation, stress_taerskel:e.stress_taerskel, energy_morning:e.energy_morning, jetlag:e.jetlag,
-    haevede_fod:e.haevede_fod, omme_led:e.omme_led, oppustet:e.oppustet, sukkertrang:e.sukkertrang, note:e.note
-  })),null,2);
-  const prompt=AI_PROMPTS[aiPromptIdx].replace('{DATA}',data);
-  try {
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})
-    });
-    const d=await res.json();
-    out.textContent=d.content?.map(b=>b.text||'').join('')||'Ingen svar.';
-  } catch(err) { out.textContent='Fejl: '+err.message; }
-  btn.disabled=false; btn.textContent='✨ Analysér igen';
-}
-
-// NAV
-function show(page) {
+// ===== NAV =====
+function show(page){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+page).classList.add('active');
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('nav-'+page).classList.add('active');
-  if(page==='history') renderHistory();
-  if(page==='analysis') renderAnalysis();
+  if(page==='history')renderHistory();
+  if(page==='analysis')renderAnalysis();
 }
-['log','history','analysis','ai'].forEach(p=>{
+['log','history','analysis'].forEach(p=>{
   document.getElementById('nav-'+p).onclick=()=>show(p);
 });
 </script>
